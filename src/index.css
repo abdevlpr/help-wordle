@@ -11,12 +11,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+* {
+  box-sizing: border-box;
+}
 
 .container {
   width: 100%;
   max-width: 900px;
-  padding: 1rem;
-  margin: 0 auto;
+  padding: 2rem;
+  margin: 1rem auto;
 }
 
 span {
@@ -27,11 +30,32 @@ span {
 .names_wrapper {
   display: flex;
   width: 100%;
+  max-width: 900px;
   overflow-x: auto;
 }
+.input_wrappers input {
+  display: block;
+  width: 100%;
+  flex: 1 1 100px;
+  min-height: 40px;
+  max-height: 40px;
+  outline: none;
+}
+.input_wrappers input:focus {
+  border: 2px solid #00ff00;
+}
+
 .input_wrappers {
   display: flex;
+  width: 100%;
   flex-direction: column;
+  margin: 1rem 0;
+  gap: 0.3rem;
+}
+.input_horiz {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
   margin: 1rem 0;
   gap: 0.3rem;
 }
