@@ -19,13 +19,18 @@ function App() {
     // info.contains
     // info.notContains
     // info.correctChars
+    // info.l1
+    // info.l2
+    // info.l3
+    // info.l4
+    // info.l5
 
     ///////// set your found value to this result so that it will show in the h1 bellow
     //  the value should be a list of strings []
     // setResult();
 
     // an example
-    setResult(["string1", "string2"]);
+    setResult(["Good", "stuff"]);
 
     ///////// this is just a test it getting random value from the array
     // var randIndex = Math.floor(Math.random() * dailyNames1.length);
