@@ -77,9 +77,9 @@ function App() {
   };
 
   const emptyInput = (e: any) => {
-    if (e.target.value) {
-      setInfo({ ...info, [e.target.id]: "" });
-    }
+    // if (e.target.value) {
+    //   setInfo({ ...info, [e.target.id]: "" });
+    // }
   };
   return (
     <div className="container">
