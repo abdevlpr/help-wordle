@@ -10,16 +10,21 @@ function App() {
   const [result, setResult] = useState("");
 
   const guessValue = () => {
-    // the first words list (array) from wordle
+    ///////// the first words list (array) from wordle
     // dailyNames1
 
-    // the second words list (array) from wordle
+    ///////// the second words list (array) from wordle
     // dailyNames2
 
-    // set your found value to this result so that it will show in the h1 bellow
+    ///////// values from the inputs
+    // info.contains
+    // info.notContains
+    // info.correctChars
+
+    ///////// set your found value to this result so that it will show in the h1 bellow
     // setResult(found value here);
 
-    // this is just a test it getting random value from the array
+    ///////// this is just a test it getting random value from the array
     var randIndex = Math.floor(Math.random() * dailyNames1.length);
     setResult(dailyNames1[randIndex]);
   };
