@@ -4,7 +4,7 @@ import { dailyNames1, dailyNames2 } from "./TestingArray";
 const allNames = [...dailyNames1, ...dailyNames2];
 
 function App() {
-  const [info, setInfo] = useState({
+  const [info, setInfo] = useState<any>({
     contains: "",
     notContains: "",
     l1: "",
@@ -54,6 +54,33 @@ function App() {
     // var randIndex = Math.floor(Math.random() * dailyNames1.length);
   };
 
+  const handleInputChange = (e: any) => {
+    setInfo({ ...info, [e.target.id]: e.target.value });
+    const { maxLength, value, name } = e.target;
+    const [fieldName, fieldIndex] = name.split("-");
+
+    // Check if they hit the max character length
+    if (value.length === maxLength) {
+      // Check if it's not the last input field
+      if (parseInt(fieldIndex, 10) < 5) {
+        // Get the next input field
+        const nextSibling: any = document.querySelector(
+          `input[name=ssn-${parseInt(fieldIndex, 10) + 1}]`
+        );
+
+        // If found, focus the next field
+        if (nextSibling !== null) {
+          nextSibling.focus();
+        }
+      }
+    }
+  };
+
+  const emptyInput = (e: any) => {
+    if (e.target.value) {
+      setInfo({ ...info, [e.target.id]: "" });
+    }
+  };
   return (
     <div className="container">
       <div>
@@ -77,6 +104,7 @@ function App() {
         <input
           type="text"
           id="contains"
+          value={info.contains}
           onChange={(e) => {
             setInfo({ ...info, contains: e.target.value });
           }}
@@ -87,6 +115,7 @@ function App() {
         <input
           type="text"
           id="notContains"
+          value={info.notContains}
           onChange={(e) => {
             setInfo({ ...info, notContains: e.target.value });
           }}
@@ -97,33 +126,48 @@ function App() {
         <div className="input_horiz">
           <input
             type="text"
-            onChange={(e) => {
-              setInfo({ ...info, l1: e.target.value });
-            }}
+            onChange={handleInputChange}
+            onFocus={emptyInput}
+            value={info.l1}
+            maxLength={1}
+            name="ssn-1"
+            id="l1"
           />
           <input
             type="text"
-            onChange={(e) => {
-              setInfo({ ...info, l2: e.target.value });
-            }}
+            onChange={handleInputChange}
+            onFocus={emptyInput}
+            maxLength={1}
+            name="ssn-2"
+            value={info.l2}
+            id="l2"
           />
           <input
             type="text"
-            onChange={(e) => {
-              setInfo({ ...info, l3: e.target.value });
-            }}
+            onChange={handleInputChange}
+            onFocus={emptyInput}
+            maxLength={1}
+            name="ssn-3"
+            value={info.l3}
+            id="l3"
           />
           <input
             type="text"
-            onChange={(e) => {
-              setInfo({ ...info, l4: e.target.value });
-            }}
+            onChange={handleInputChange}
+            onFocus={emptyInput}
+            maxLength={1}
+            name="ssn-4"
+            value={info.l4}
+            id="l4"
           />
           <input
             type="text"
-            onChange={(e) => {
-              setInfo({ ...info, l5: e.target.value });
-            }}
+            onChange={handleInputChange}
+            onFocus={emptyInput}
+            maxLength={1}
+            name="ssn-5"
+            value={info.l5}
+            id="l5"
           />
         </div>
       </div>
