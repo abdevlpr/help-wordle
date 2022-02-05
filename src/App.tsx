@@ -7,7 +7,11 @@ function App() {
   const [info, setInfo] = useState({
     contains: "",
     notContains: "",
-    correctChars: "",
+    l1: "",
+    l2: "",
+    l3: "",
+    l4: "",
+    l5: "",
   });
   const [result, setResult] = useState<any>([]);
 
@@ -17,13 +21,19 @@ function App() {
 
     ///////// values from the inputs
     // info.contains
+    console.log("info.contains: ", info.contains);
     // info.notContains
-    // info.correctChars
+    console.log("info.notContains: ", info.notContains);
     // info.l1
+    console.log("info.l1: ", info.l1);
     // info.l2
+    console.log("info.l2: ", info.l2);
     // info.l3
+    console.log("info.l3: ", info.l3);
     // info.l4
+    console.log("info.l4: ", info.l4);
     // info.l5
+    console.log("info.l5: ", info.l5);
 
     ///////// set your found value to this result so that it will show in the h1 bellow
     //  the value should be a list of strings []
@@ -75,14 +85,39 @@ function App() {
         />
       </div>
       <div className="input_wrappers">
-        <label htmlFor="correctChars">tested</label>
-        <input
-          type="text"
-          id="correctChars"
-          onChange={(e) => {
-            setInfo({ ...info, correctChars: e.target.value });
-          }}
-        />
+        <label htmlFor="correctChars">correctChars</label>
+        <div className="input_horiz">
+          <input
+            type="text"
+            onChange={(e) => {
+              setInfo({ ...info, l1: e.target.value });
+            }}
+          />
+          <input
+            type="text"
+            onChange={(e) => {
+              setInfo({ ...info, l2: e.target.value });
+            }}
+          />
+          <input
+            type="text"
+            onChange={(e) => {
+              setInfo({ ...info, l3: e.target.value });
+            }}
+          />
+          <input
+            type="text"
+            onChange={(e) => {
+              setInfo({ ...info, l4: e.target.value });
+            }}
+          />
+          <input
+            type="text"
+            onChange={(e) => {
+              setInfo({ ...info, l5: e.target.value });
+            }}
+          />
+        </div>
       </div>
       <div className="input_wrappers">
         <input type="button" value="submit" onClick={guessValue} />
