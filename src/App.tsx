@@ -1,20 +1,19 @@
 import React, { useState } from "react";
 import { dailyNames1, dailyNames2 } from "./TestingArray";
 
+const allNames = [...dailyNames1, ...dailyNames2];
+
 function App() {
   const [info, setInfo] = useState({
     contains: "",
     notContains: "",
     correctChars: "",
   });
-  const [result, setResult] = useState("");
+  const [result, setResult] = useState<any>([]);
 
   const guessValue = () => {
-    ///////// the first words list (array) from wordle
-    // dailyNames1
-
-    ///////// the second words list (array) from wordle
-    // dailyNames2
+    ///////// all the names in one list from wordle
+    // allNames
 
     ///////// values from the inputs
     // info.contains
@@ -22,11 +21,14 @@ function App() {
     // info.correctChars
 
     ///////// set your found value to this result so that it will show in the h1 bellow
-    // setResult(found value here);
+    //  the value should be a list of strings []
+    // setResult();
+
+    // an example
+    setResult(["string1", "string2"]);
 
     ///////// this is just a test it getting random value from the array
-    var randIndex = Math.floor(Math.random() * dailyNames1.length);
-    setResult(dailyNames1[randIndex]);
+    // var randIndex = Math.floor(Math.random() * dailyNames1.length);
   };
 
   return (
@@ -80,7 +82,9 @@ function App() {
       <div className="input_wrappers">
         <input type="button" value="submit" onClick={guessValue} />
       </div>
-      <h1>{result}</h1>
+      {result.map((item: string) => (
+        <h2>{item}</h2>
+      ))}
     </div>
   );
 }
