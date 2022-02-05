@@ -17,7 +17,15 @@ function App() {
 
   const guessValue = () => {
     ///////// all the names in one list from wordle
-    // allNames
+    const myRe = new RegExp(`['${info.l1}'].*['${info.l3}'].*['${info.l5}']`);
+    const arr = [""];
+    allNames.forEach((item) => {
+      if (myRe.exec(item)) {
+        arr.push(item);
+      }
+    });
+
+    console.log("arr: ", arr);
 
     ///////// values from the inputs
     // info.contains
