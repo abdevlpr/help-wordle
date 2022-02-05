@@ -42,7 +42,7 @@ span {
   outline: none;
 }
 .input_wrappers input:focus {
-  border: 2px solid #00ff00;
+  border: 2px solid #4dbd72;
 }
 
 .input_wrappers {
