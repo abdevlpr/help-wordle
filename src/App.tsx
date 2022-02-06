@@ -17,10 +17,23 @@ function App() {
 
   const guessValue = () => {
     ///////// all the names in one list from wordle
+    const p1 = info.l1 ?? info.notContains ?? ""
+    const reString = `^`
+    // get include and exclude
+
+    // generate positions reg : if position have letter put it 
+    // if no letter, exclude the notContains 
+
+    // pass the regexes into the their position in the big reg
+
+
+    // refine the final result with regex with the contains letters
+
     const myRe = new RegExp(`['${info.l1}'].*['${info.l3}'].*['${info.l5}']`);
     const arr = [""];
     allNames.forEach((item) => {
-      if (myRe.exec(item)) {
+      // add the refine condition here (if .. and ..)
+      if (myRe.test(item) ) {
         arr.push(item);
       }
     });
