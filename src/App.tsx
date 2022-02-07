@@ -13,23 +13,34 @@ function App() {
     l4: "",
     l5: "",
   });
+
   const [result, setResult] = useState<any>([]);
 
   const guessValue = () => {
     ///////// all the names in one list from wordle
-    const p1 = info.l1 ?? info.notContains ?? ""
-    const reString = `^`
-    // get include and exclude
+    // Generate regexes strings
 
-    // generate positions reg : if position have letter put it 
-    // if no letter, exclude the notContains 
+    interface regObjInterface {
+      [key: string]: string;
+    }
+    const regStrings: regObjInterface = {
+      l1: "",
+      l2: "",
+      l3: "",
+      l4: "",
+      l5: "",
+    }
 
-    // pass the regexes into the their position in the big reg
-
-
-    // refine the final result with regex with the contains letters
-
-    const myRe = new RegExp(`['${info.l1}'].*['${info.l3}'].*['${info.l5}']`);
+    for (const key in regStrings) {
+      if (info[key]) {
+        regStrings[key] = `[${info[key]}]`
+      } else {
+        regStrings[key] = `[^${info.notContains}]`
+      }
+    }
+    // Concatenating regStrings into one fullRegString and generating regex obj
+    const fullRegString = ''.concat(...Object.values(regStrings))
+    const myRe = new RegExp(`${fullRegString}`);
     const arr = [""];
     allNames.forEach((item) => {
       // add the refine condition here (if .. and ..)
