@@ -31,6 +31,8 @@ function App() {
       l5: "",
     }
 
+    // for a given position: if letter is set use it , else at least
+    // check against notContains .
     for (const key in regStrings) {
       if (info[key]) {
         regStrings[key] = `[${info[key]}]`
@@ -38,27 +40,29 @@ function App() {
         regStrings[key] = `[^${info.notContains}]`
       }
     }
+
     // Concatenating regStrings into one fullRegString and generating main regex obj
     const fullRegString = ''.concat(...Object.values(regStrings))
     const mainRe = new RegExp(`${fullRegString}`);
 
-    // refine result with containsRe
-    // if not set it'll always returns true
+    // refine result with containsRe generated from info.contains chars
+    // if not chars always return true
     var containsReString = ''
-    
+
     if (info.contains) {
       const containsArr = info.contains.split('')
       containsArr.forEach((char: string) => {
         containsReString += `(?=.*${char})`
       })
       
+    } else {
+      containsReString = '^.*$'
     }
 
     const containsRe = new RegExp(`${containsReString}`)
 
     const arr = [""];
     allNames.forEach((item) => {
-      // add the refine condition here (if .. and ..)
       if (mainRe.test(item) && containsRe.test(item)) {
         arr.push(item);
       }
