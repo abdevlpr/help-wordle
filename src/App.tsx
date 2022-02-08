@@ -38,13 +38,28 @@ function App() {
         regStrings[key] = `[^${info.notContains}]`
       }
     }
-    // Concatenating regStrings into one fullRegString and generating regex obj
+    // Concatenating regStrings into one fullRegString and generating main regex obj
     const fullRegString = ''.concat(...Object.values(regStrings))
-    const myRe = new RegExp(`${fullRegString}`);
+    const mainRe = new RegExp(`${fullRegString}`);
+
+    // refine result with containsRe
+    // if not set it'll always returns true
+    var containsReString = ''
+    
+    if (info.contains) {
+      const containsArr = info.contains.split('')
+      containsArr.forEach((char: string) => {
+        containsReString += `(?=.*${char})`
+      })
+      
+    }
+
+    const containsRe = new RegExp(`${containsReString}`)
+
     const arr = [""];
     allNames.forEach((item) => {
       // add the refine condition here (if .. and ..)
-      if (myRe.test(item) ) {
+      if (mainRe.test(item) && containsRe.test(item)) {
         arr.push(item);
       }
     });
@@ -69,10 +84,10 @@ function App() {
 
     ///////// set your found value to this result so that it will show in the h1 bellow
     //  the value should be a list of strings []
-    // setResult();
+    setResult(arr);
 
     // an example
-    setResult(["Good", "stuff"]);
+    // setResult(["Good", "stuff"]);
 
     ///////// this is just a test it getting random value from the array
     // var randIndex = Math.floor(Math.random() * dailyNames1.length);
