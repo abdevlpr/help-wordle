@@ -29,14 +29,23 @@ function App() {
 
   // pickup the key presses from the window
   useEffect(() => {
-    document.addEventListener("keydown", handleKeyDow);
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.removeEventListener("keydown", handleKeyDow);
+      document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [selected, info]);
+  }, [
+    selected,
+    info.l1.content,
+    info.l2.content,
+    info.l3.content,
+    info.l4.content,
+    info.l5.content,
+    info.contains.content,
+    info.notContain.content,
+  ]);
 
   //handle keypressed on the window
-  const handleKeyDow = (e: any) => {
+  const handleKeyDown = (e: any) => {
     if (e.key === "Backspace") {
       e.preventDefault();
     }
@@ -233,45 +242,45 @@ function App() {
           <div className="container column inner">
             <div className="modalHeader">
               <label>How to use the helper</label>
-              <img src={closeIcon} onClick={toggleInfoModal} />
+              <img src={closeIcon} onClick={toggleInfoModal} alt="" />
             </div>
             <div className="modalContainer">
               <span>This first try from Wordle as an Example</span>
-              <img src={Tut1} />
+              <img src={Tut1} alt="" />
               <span>From this word fill in the boxes to help you</span>
-              <img src={arrowIcon} className="arrowImg" />
+              <img src={arrowIcon} className="arrowImg" alt="" />
               <label className="correctTxt">Green boxes</label>
               <span>For characters with correct position</span>
-              <img src={Tut2} />
+              <img src={Tut2} alt="" />
               <label className="containTxt">Yellow box</label>
               <span>
                 For characters known in the word but not in the correct place
               </span>
-              <img src={Tut3} />
+              <img src={Tut3} alt="" />
               <label className="notContainTxt">Grey box</label>
               <span>For characters that does not exist in the word</span>
-              <img src={Tut4} />
+              <img src={Tut4} alt="" />
               <label>Suggested solutions box</label>
               <span>
                 List for suggested words based on the filled boxes to help you
                 narrow down the list
               </span>
-              <img src={Tut5} />
+              <img src={Tut5} alt="" />
               <label>
                 Yay!... Testing with the first word on the list got us the
                 result correct in wordle
               </label>
-              <img src={Tut6} />
+              <img src={Tut6} alt="" />
             </div>
           </div>
         </div>
       )}
       <header>
         <div className="btn" onClick={toggleInfoModal}>
-          <img src={infoIcon} />
+          <img src={infoIcon} alt="" />
         </div>
         <div className="logo">
-          <img src={logoIcon} />
+          <img src={logoIcon} alt="" />
         </div>
       </header>
       <main>
