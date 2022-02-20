@@ -293,7 +293,6 @@ function App() {
               <input
                 type="text"
                 id="justInput"
-                readOnly
                 value={0}
                 style={{
                   height: "0",
