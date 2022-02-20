@@ -33,6 +33,7 @@ function App() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
+    handleKeyDown("");
   }, [
     selected,
     info.l1.content,
