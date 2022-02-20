@@ -30,10 +30,11 @@ function App() {
   // pickup the key presses from the window
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
+
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-    handleKeyDown("");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     selected,
     info.l1.content,
