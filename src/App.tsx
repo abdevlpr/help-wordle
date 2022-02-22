@@ -13,6 +13,10 @@ import Tut6 from "./assets/tutorial/6.png";
 
 const allNames = [...dailyNames1, ...dailyNames2];
 
+const keyboardRowOne = "qwertyuiop";
+const keyboardRowTwo = "asdfghjkl";
+const keyboardRowThree = "zxcvbnm";
+
 function App() {
   const [selected, setSelected] = useState(1);
   const [info, setInfo] = useState<any>({
@@ -394,6 +398,31 @@ function App() {
                 </div>
               ))}
             </label>
+            <div className="keyboard">
+              <div className="keyboardRow">
+                {keyboardRowOne.split("").map((keyItem) => (
+                  <div className="key" key={keyItem}>
+                    {keyItem}
+                  </div>
+                ))}
+              </div>
+              <div className="keyboardRow">
+                {keyboardRowTwo.split("").map((keyItem) => (
+                  <div className="key" key={keyItem}>
+                    {keyItem}
+                  </div>
+                ))}
+              </div>
+              <div className="keyboardRow">
+                <div className="key">enter</div>
+                {keyboardRowThree.split("").map((keyItem) => (
+                  <div className="key" key={keyItem}>
+                    {keyItem}
+                  </div>
+                ))}
+                <div className="key">{`<`}</div>
+              </div>
+            </div>
             <div className="resultBtn" onClick={guessValue}>
               Show Suggestions
             </div>
