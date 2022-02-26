@@ -10,12 +10,12 @@ import Tut3 from "./assets/tutorial/3.png";
 import Tut4 from "./assets/tutorial/4.png";
 import Tut5 from "./assets/tutorial/5.png";
 import Tut6 from "./assets/tutorial/6.png";
+import Keyboard from "./components/Keyboard";
+import SingleLetterInput from "./components/SingleLetterInput";
+import MultipleLetterInput from "./components/MultipleLetterInput";
 
 const allNames = [...dailyNames1, ...dailyNames2];
-
-const keyboardRowOne = "qwertyuiop";
-const keyboardRowTwo = "asdfghjkl";
-const keyboardRowThree = "zxcvbnm";
+let foundById: any;
 
 function App() {
   const [selected, setSelected] = useState(1);
@@ -29,11 +29,17 @@ function App() {
     contains: { content: [], id: 6 },
     notContain: { content: [], id: 7 },
   });
-  const [result, setResult] = useState<any>([]);
+  const [result, setResult] = useState<string[]>([]);
   const [infoModalOpen, setInfoModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // pickup the key presses from the window
   useEffect(() => {
+    //check in the info which object is selected
+    const found = Object.keys(info).filter(
+      (infoItem) => info[infoItem].id === selected
+    );
+    foundById = found[0];
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
@@ -50,6 +56,45 @@ function App() {
     info.contains.content,
     info.notContain.content,
   ]);
+
+  //add one char to the input
+  const addCharacterToInput = (value: string) => {
+    setErrorMessage("");
+    if (foundById === "notContain" || foundById === "contains") {
+      setInfo({
+        ...info,
+        [foundById]: {
+          ...info[foundById],
+          content: [...info[foundById].content, value],
+        },
+      });
+    } else {
+      setInfo({ ...info, [foundById]: { ...info[foundById], content: value } });
+      if (selected < 6) {
+        setSelected(selected + 1);
+      }
+    }
+  };
+
+  //remove one char from the input
+  const removeOneCharacterFromInput = () => {
+    if (foundById === "notContain" || foundById === "contains") {
+      const tempItem = info[foundById].content;
+      tempItem.splice(tempItem.indexOf(tempItem.length - 1), 1);
+      setInfo({
+        ...info,
+        [foundById]: {
+          ...info[foundById],
+          content: tempItem,
+        },
+      });
+    } else {
+      setInfo({ ...info, [foundById]: { ...info[foundById], content: "" } });
+      if (selected > 1 && selected < 6) {
+        setSelected(selected - 1);
+      }
+    }
+  };
 
   //handle keypressed on the window
   const handleKeyDown = (e: any) => {
@@ -90,25 +135,13 @@ function App() {
         }
         break;
       case "ArrowRight":
-        if (selected === 1) {
-          setSelected(2);
-        } else if (selected === 2) {
-          setSelected(3);
-        } else if (selected === 3) {
-          setSelected(4);
-        } else if (selected === 4) {
-          setSelected(5);
+        if (selected < 5) {
+          setSelected(selected + 1);
         }
         break;
       case "ArrowLeft":
-        if (selected === 5) {
-          setSelected(4);
-        } else if (selected === 4) {
-          setSelected(3);
-        } else if (selected === 3) {
-          setSelected(2);
-        } else if (selected === 2) {
-          setSelected(1);
+        if (selected > 1) {
+          setSelected(selected - 1);
         }
         break;
       default:
@@ -118,39 +151,11 @@ function App() {
     //check for the keydown to put value the input
     const regex = new RegExp("[a-zA-Z]");
     if (e.key === "Backspace") {
-      const found = Object.keys(info).filter(
-        (infoItem) => info[infoItem].id === selected
-      );
-      if (found[0] === "notContain" || found[0] === "contains") {
-        const tempItem = info[found[0]].content;
-        tempItem.splice(tempItem.indexOf(tempItem.length - 1), 1);
-        setInfo({
-          ...info,
-          [found[0]]: {
-            ...info[found[0]],
-            content: tempItem,
-          },
-        });
-      } else {
-        setInfo({ ...info, [found[0]]: { ...info[found[0]], content: "" } });
-      }
+      removeOneCharacterFromInput();
     }
 
     if (regex.test(e.key) && e.key.length === 1) {
-      const found = Object.keys(info).filter(
-        (infoItem) => info[infoItem].id === selected
-      );
-      if (found[0] === "notContain" || found[0] === "contains") {
-        setInfo({
-          ...info,
-          [found[0]]: {
-            ...info[found[0]],
-            content: [...info[found[0]].content, e.key],
-          },
-        });
-      } else {
-        setInfo({ ...info, [found[0]]: { ...info[found[0]], content: e.key } });
-      }
+      addCharacterToInput(e.key);
     }
   };
 
@@ -173,6 +178,7 @@ function App() {
       2
     ) {
       setResult([]);
+      setErrorMessage("Minimum 3 characters as a hint");
       return;
     }
 
@@ -217,12 +223,17 @@ function App() {
 
     const containsRe = new RegExp(`${containsReString}`);
 
-    const arr = [""];
+    const arr: string[] = [];
     allNames.forEach((item) => {
       if (mainRe.test(item) && containsRe.test(item)) {
         arr.push(item);
       }
     });
+    if (arr.length === 0) {
+      setErrorMessage("no result found");
+    } else {
+      setErrorMessage("");
+    }
     setResult(arr);
   };
 
@@ -241,55 +252,41 @@ function App() {
   const toggleInfoModal = () => {
     setInfoModalOpen(!infoModalOpen);
   };
-  const handleKeyboardClick = (value: any) => {
+
+  const handleInputClick = (event: any, id: number) => {
+    setSelected(id);
+    if (event.clientX < 300) {
+      setShowKeyboard(true);
+    } else if (!event.clientX) {
+      setShowKeyboard(true);
+    }
+  };
+
+  const handleKeyboardClick = (value: string) => {
     const regex = new RegExp("[a-zA-Z]");
     if (regex.test(value)) {
-      const found = Object.keys(info).filter(
-        (infoItem) => info[infoItem].id === selected
-      );
-      if (found[0] === "notContain" || found[0] === "contains") {
-        setInfo({
-          ...info,
-          [found[0]]: {
-            ...info[found[0]],
-            content: [...info[found[0]].content, value],
-          },
-        });
-      } else {
-        setInfo({ ...info, [found[0]]: { ...info[found[0]], content: value } });
-        if (selected < 6) {
-          setSelected(selected + 1);
-        }
-      }
+      addCharacterToInput(value);
     }
     if (value === "<") {
-      const found = Object.keys(info).filter(
-        (infoItem) => info[infoItem].id === selected
-      );
-      if (found[0] === "notContain" || found[0] === "contains") {
-        const tempItem = info[found[0]].content;
-        tempItem.splice(tempItem.indexOf(tempItem.length - 1), 1);
-        setInfo({
-          ...info,
-          [found[0]]: {
-            ...info[found[0]],
-            content: tempItem,
-          },
-        });
-      } else {
-        setInfo({ ...info, [found[0]]: { ...info[found[0]], content: "" } });
-        if (selected > 1 && selected < 6) {
-          setSelected(selected - 1);
-        }
-      }
+      removeOneCharacterFromInput();
     }
   };
 
   return (
     <div className="container mainApp">
       {infoModalOpen && (
-        <div className="modal">
-          <div className="InnerModalContainer column">
+        <div
+          className="modal"
+          onClick={() => {
+            setInfoModalOpen(false);
+          }}
+        >
+          <div
+            className="InnerModalContainer column"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
             <div className="modalHeader">
               <label>How to use the helper</label>
               <img src={closeIcon} onClick={toggleInfoModal} alt="" />
@@ -304,7 +301,8 @@ function App() {
               <img src={Tut2} alt="" />
               <label className="containTxt">Yellow box</label>
               <span>
-                Fill characters known to be in the word but aren't in correct spot.
+                Fill characters known to be in the word but aren't in correct
+                spot.
               </span>
               <img src={Tut3} alt="" />
               <label className="notContainTxt">Grey box</label>
@@ -312,8 +310,8 @@ function App() {
               <img src={Tut4} alt="" />
               <label>Suggested solutions box</label>
               <span>
-                A generated list of words based on the search criteria to help you
-                narrow down possible words.
+                A generated list of words based on the search criteria to help
+                you narrow down possible words.
               </span>
               <img src={Tut5} alt="" />
               <label>
@@ -338,98 +336,56 @@ function App() {
           <div className="inputWrapper">
             <label>Correct spot</label>
             <div className="lettersWrapper correct">
-              <label
-                className={`letter ${!info.l1.content && "empty"} ${
-                  info.l1.id === selected && "selected"
-                }`}
-                onClick={() => {
-                  setSelected(info.l1.id);
-                  setShowKeyboard(true);
-                }}
-              >
-                {info.l1.content}
-              </label>
-              <label
-                className={`letter ${info.l2.content ? "" : "empty"} ${
-                  info.l2.id === selected ? "selected" : ""
-                }`}
-                onClick={() => {
-                  setSelected(info.l2.id);
-                  setShowKeyboard(true);
-                }}
-              >
-                {info.l2.content}
-              </label>
-              <label
-                className={`letter ${!info.l3.content && "empty"} ${
-                  info.l3.id === selected && "selected"
-                }`}
-                onClick={() => {
-                  setSelected(info.l3.id);
-                  setShowKeyboard(true);
-                }}
-              >
-                {info.l3.content}
-              </label>
-              <label
-                className={`letter ${!info.l4.content && "empty"} ${
-                  info.l4.id === selected && "selected"
-                }`}
-                onClick={() => {
-                  setSelected(info.l4.id);
-                  setShowKeyboard(true);
-                }}
-              >
-                {info.l4.content}
-              </label>
-              <label
-                className={`letter ${!info.l5.content && "empty"} ${
-                  info.l5.id === selected && "selected"
-                }`}
-                onClick={() => {
-                  setSelected(info.l5.id);
-                  setShowKeyboard(true);
-                }}
-              >
-                {info.l5.content}
-              </label>
+              <SingleLetterInput
+                id={info.l1.id}
+                selected={selected}
+                content={info.l1.content}
+                handleInputClick={handleInputClick}
+              />
+              <SingleLetterInput
+                id={info.l2.id}
+                selected={selected}
+                content={info.l2.content}
+                handleInputClick={handleInputClick}
+              />
+              <SingleLetterInput
+                id={info.l3.id}
+                selected={selected}
+                content={info.l3.content}
+                handleInputClick={handleInputClick}
+              />
+              <SingleLetterInput
+                id={info.l4.id}
+                selected={selected}
+                content={info.l4.content}
+                handleInputClick={handleInputClick}
+              />
+              <SingleLetterInput
+                id={info.l5.id}
+                selected={selected}
+                content={info.l5.content}
+                handleInputClick={handleInputClick}
+              />
             </div>
           </div>
           <div className="inputWrapper">
             <label>Contains</label>
-            <label
-              className={`lettersWrapper contain ${
-                info.contains.id === selected && "selected"
-              }`}
-              onClick={() => {
-                setSelected(info.contains.id);
-                setShowKeyboard(true);
-              }}
-            >
-              {info.contains.content.map((letter: string, index: number) => (
-                <div className={`letter`} key={letter + index}>
-                  {letter}
-                </div>
-              ))}
-            </label>
+            <MultipleLetterInput
+              id={info.contains.id}
+              selected={selected}
+              content={info.contains.content}
+              handleInputClick={handleInputClick}
+              contain
+            />
           </div>
           <div className="inputWrapper">
             <label>Does not contain</label>
-            <label
-              className={`lettersWrapper notcontain ${
-                info.notContain.id === selected && "selected"
-              }`}
-              onClick={() => {
-                setSelected(info.notContain.id);
-                setShowKeyboard(true);
-              }}
-            >
-              {info.notContain.content.map((letter: string, index: number) => (
-                <div className={`letter`} key={letter + index}>
-                  {letter}
-                </div>
-              ))}
-            </label>
+            <MultipleLetterInput
+              id={info.notContain.id}
+              selected={selected}
+              content={info.notContain.content}
+              handleInputClick={handleInputClick}
+            />
             <div className="resultBtn" onClick={guessValue}>
               Show Suggestions
             </div>
@@ -439,7 +395,11 @@ function App() {
           </div>
         </section>
         <section className="resultsWrapper">
-          <label>Suggested solutions</label>
+          {errorMessage ? (
+            <label className="error">{errorMessage}</label>
+          ) : (
+            <label>Suggested solutions</label>
+          )}
           <section className="results">
             {result.map(
               (word: string, index: number) =>
@@ -456,79 +416,12 @@ function App() {
           </section>
         </section>
       </main>
-      <div className={`keyboard`}>
-        <div
-          className="toggleKeyboard"
-          onClick={() => {
-            setShowKeyboard(!showKeyboard);
-          }}
-        >
-          {showKeyboard ? "Hide Keyboad" : "Show keyboard"}
-        </div>
-        <div className={`keyboardRow ${showKeyboard && "showKeyboard"}`}>
-          {keyboardRowOne.split("").map((keyItem) => (
-            <div
-              className="key"
-              key={keyItem}
-              onClick={() => {
-                handleKeyboardClick(keyItem);
-              }}
-            >
-              {keyItem}
-            </div>
-          ))}
-        </div>
-        <div className={`keyboardRow ${showKeyboard && "showKeyboard"}`}>
-          <div className="half"></div>
-          {keyboardRowTwo.split("").map((keyItem) => (
-            <div
-              className="key"
-              key={keyItem}
-              onClick={() => {
-                handleKeyboardClick(keyItem);
-              }}
-            >
-              {keyItem}
-            </div>
-          ))}
-          <div className="half"></div>
-        </div>
-        <div className={`keyboardRow ${showKeyboard && "showKeyboard"}`}>
-          <div className="key oneandhalf" onClick={guessValue}>
-            enter
-          </div>
-          {keyboardRowThree.split("").map((keyItem) => (
-            <div
-              className="key"
-              key={keyItem}
-              onClick={() => {
-                handleKeyboardClick(keyItem);
-              }}
-            >
-              {keyItem}
-            </div>
-          ))}
-          <div
-            className="key oneandhalf"
-            onClick={() => {
-              handleKeyboardClick("<");
-            }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24"
-              viewBox="0 0 24 24"
-              width="24"
-            >
-              <path
-                fill="white"
-                d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"
-              ></path>
-            </svg>
-          </div>
-        </div>
-      </div>
-
+      <Keyboard
+        handleKeyboardClick={handleKeyboardClick}
+        guessValue={guessValue}
+        showKeyboard={showKeyboard}
+        setShowKeyboard={setShowKeyboard}
+      />
       <footer>
         <span className="made">
           © 2022 by <a href="https://twitter.com/MossabDiae">@MossabDiae</a> &{" "}
