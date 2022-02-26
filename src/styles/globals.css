@@ -55,3 +55,9 @@ code {
   margin: 1rem 0;
   gap: 0.3rem;
 }
+
+#root {
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+}
