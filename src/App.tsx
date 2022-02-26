@@ -300,25 +300,25 @@ function App() {
               <span>From this word fill in the boxes to help you</span>
               <img src={arrowIcon} className="arrowImg" alt="" />
               <label className="correctTxt">Green boxes</label>
-              <span>For characters with correct position</span>
+              <span>Fill characters with correct spot</span>
               <img src={Tut2} alt="" />
               <label className="containTxt">Yellow box</label>
               <span>
-                For characters known in the word but not in the correct place
+                Fill characters known to be in the word but aren't in correct spot.
               </span>
               <img src={Tut3} alt="" />
               <label className="notContainTxt">Grey box</label>
-              <span>For characters that does not exist in the word</span>
+              <span>Fill characters that does not exist in the word</span>
               <img src={Tut4} alt="" />
               <label>Suggested solutions box</label>
               <span>
-                List for suggested words based on the filled boxes to help you
-                narrow down the list
+                A generated list of words based on the search criteria to help you
+                narrow down possible words.
               </span>
               <img src={Tut5} alt="" />
               <label>
-                Yay!... Testing with the first word on the list got us the
-                result correct in wordle
+                Yay!... Trying the first suggestion on the list got us the
+                correct result for wordle !
               </label>
               <img src={Tut6} alt="" />
             </div>
@@ -336,7 +336,7 @@ function App() {
       <main>
         <section className="trials">
           <div className="inputWrapper">
-            <label>Correct Place</label>
+            <label>Correct spot</label>
             <div className="lettersWrapper correct">
               <label
                 className={`letter ${!info.l1.content && "empty"} ${
@@ -414,7 +414,7 @@ function App() {
             </label>
           </div>
           <div className="inputWrapper">
-            <label>Does not Contain</label>
+            <label>Does not contain</label>
             <label
               className={`lettersWrapper notcontain ${
                 info.notContain.id === selected && "selected"
