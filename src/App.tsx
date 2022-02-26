@@ -338,69 +338,57 @@ function App() {
           <div className="inputWrapper">
             <label>Correct Place</label>
             <div className="lettersWrapper correct">
-              <input
-                type="text"
-                id="justInput"
-                value={0}
-                style={{
-                  height: "0",
-                  width: "0",
-                  padding: "0",
-                  margin: "0",
-                  border: "none",
-                }}
-              />
               <label
-                htmlFor="justInput"
                 className={`letter ${!info.l1.content && "empty"} ${
                   info.l1.id === selected && "selected"
                 }`}
                 onClick={() => {
                   setSelected(info.l1.id);
+                  setShowKeyboard(true);
                 }}
               >
                 {info.l1.content}
               </label>
               <label
-                htmlFor="justInput"
                 className={`letter ${info.l2.content ? "" : "empty"} ${
                   info.l2.id === selected ? "selected" : ""
                 }`}
                 onClick={() => {
                   setSelected(info.l2.id);
+                  setShowKeyboard(true);
                 }}
               >
                 {info.l2.content}
               </label>
               <label
-                htmlFor="justInput"
                 className={`letter ${!info.l3.content && "empty"} ${
                   info.l3.id === selected && "selected"
                 }`}
                 onClick={() => {
                   setSelected(info.l3.id);
+                  setShowKeyboard(true);
                 }}
               >
                 {info.l3.content}
               </label>
               <label
-                htmlFor="justInput"
                 className={`letter ${!info.l4.content && "empty"} ${
                   info.l4.id === selected && "selected"
                 }`}
                 onClick={() => {
                   setSelected(info.l4.id);
+                  setShowKeyboard(true);
                 }}
               >
                 {info.l4.content}
               </label>
               <label
-                htmlFor="justInput"
                 className={`letter ${!info.l5.content && "empty"} ${
                   info.l5.id === selected && "selected"
                 }`}
                 onClick={() => {
                   setSelected(info.l5.id);
+                  setShowKeyboard(true);
                 }}
               >
                 {info.l5.content}
@@ -410,12 +398,12 @@ function App() {
           <div className="inputWrapper">
             <label>Contains</label>
             <label
-              htmlFor="justInput"
               className={`lettersWrapper contain ${
                 info.contains.id === selected && "selected"
               }`}
               onClick={() => {
                 setSelected(info.contains.id);
+                setShowKeyboard(true);
               }}
             >
               {info.contains.content.map((letter: string, index: number) => (
@@ -428,12 +416,12 @@ function App() {
           <div className="inputWrapper">
             <label>Does not Contain</label>
             <label
-              htmlFor="justInput"
               className={`lettersWrapper notcontain ${
                 info.notContain.id === selected && "selected"
               }`}
               onClick={() => {
                 setSelected(info.notContain.id);
+                setShowKeyboard(true);
               }}
             >
               {info.notContain.content.map((letter: string, index: number) => (
