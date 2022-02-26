@@ -25,7 +25,13 @@
 
   --selection: #4d74ff;
 }
-
+.mainApp {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: center;
+  flex: 1;
+}
 header {
   display: flex;
   justify-content: space-between;
@@ -34,6 +40,7 @@ header {
   margin-bottom: 24px;
   padding: 0 5px;
   padding-bottom: 5px;
+  width: 100%;
 }
 header::after {
   content: "";
@@ -56,14 +63,14 @@ main {
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
+  overflow: auto;
   gap: 1rem;
 }
 main > section {
   flex: 1 1 250px;
-  margin: 1rem 0;
+  margin: 0.5rem 0;
 }
 footer {
-  margin-top: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -148,8 +155,8 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50px;
   margin-top: 24px;
+  padding: 1rem 0;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -178,8 +185,8 @@ footer {
   gap: 5px;
   border: 2px solid var(--keyboard-dark);
   padding: 5px;
-  max-height: 60vh;
-  min-height: 60vh;
+  max-height: 50vh;
+  min-height: 50vh;
   width: 280px;
   overflow: auto;
 }
@@ -213,13 +220,16 @@ footer {
   height: 100vh;
   background: var(--bg-dark-overlay);
   z-index: 10;
+  width: 100%;
 }
-.modal .inner {
+.InnerModalContainer {
   background: var(--bg-dark);
-  max-width: 500px;
+  width: 100%;
+  max-width: 450px;
   height: 100vh;
   overflow: hidden;
   padding: 1rem 2rem;
+  margin: 0 auto;
 }
 .modalHeader {
   display: flex;
@@ -269,25 +279,55 @@ footer {
   flex-direction: column;
   justify-content: center;
   gap: 0.5rem;
+  width: 100%;
+  max-width: 450px;
+  padding: 0.5rem;
 }
 .keyboardRow {
   display: flex;
   justify-content: center;
   width: 100%;
-  gap: 0.5rem;
+  transform: scale(0);
+  transform-origin: bottom;
+  max-height: 0;
+  overflow: hidden;
+  transition: 0.3s;
 }
-.keyboard .key {
+.showKeyboard {
+  transform: scale(1);
+  max-height: 200px;
+}
+.toggleKeyboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  cursor: pointer;
+  width: 100%;
+  background-color: var(--notcontain-dark);
+}
+.keyboardRow .key {
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  margin-right: 6px;
+  border-radius: 4px;
   text-transform: uppercase;
-  padding: 5px;
-  min-width: 24px;
+  flex-grow: 1;
   min-height: 32px;
+  padding: 5px;
   background-color: var(--keyboard-dark);
 }
-.keyboard .key:hover {
+.keyboardRow .key:last-of-type {
+  margin: 0;
+}
+.keyboardRow .key:hover {
   opacity: 0.9;
+}
+.half {
+  flex-grow: 0.5;
+}
+.oneandhalf {
+  flex-grow: 1.5;
 }

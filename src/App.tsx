@@ -19,6 +19,7 @@ const keyboardRowThree = "zxcvbnm";
 
 function App() {
   const [selected, setSelected] = useState(1);
+  const [showKeyboard, setShowKeyboard] = useState(false);
   const [info, setInfo] = useState<any>({
     l1: { content: "", id: 1 },
     l2: { content: "", id: 2 },
@@ -240,12 +241,55 @@ function App() {
   const toggleInfoModal = () => {
     setInfoModalOpen(!infoModalOpen);
   };
+  const handleKeyboardClick = (value: any) => {
+    const regex = new RegExp("[a-zA-Z]");
+    if (regex.test(value)) {
+      const found = Object.keys(info).filter(
+        (infoItem) => info[infoItem].id === selected
+      );
+      if (found[0] === "notContain" || found[0] === "contains") {
+        setInfo({
+          ...info,
+          [found[0]]: {
+            ...info[found[0]],
+            content: [...info[found[0]].content, value],
+          },
+        });
+      } else {
+        setInfo({ ...info, [found[0]]: { ...info[found[0]], content: value } });
+        if (selected < 6) {
+          setSelected(selected + 1);
+        }
+      }
+    }
+    if (value === "<") {
+      const found = Object.keys(info).filter(
+        (infoItem) => info[infoItem].id === selected
+      );
+      if (found[0] === "notContain" || found[0] === "contains") {
+        const tempItem = info[found[0]].content;
+        tempItem.splice(tempItem.indexOf(tempItem.length - 1), 1);
+        setInfo({
+          ...info,
+          [found[0]]: {
+            ...info[found[0]],
+            content: tempItem,
+          },
+        });
+      } else {
+        setInfo({ ...info, [found[0]]: { ...info[found[0]], content: "" } });
+        if (selected > 1 && selected < 6) {
+          setSelected(selected - 1);
+        }
+      }
+    }
+  };
 
   return (
-    <div className="container">
+    <div className="container mainApp">
       {infoModalOpen && (
         <div className="modal">
-          <div className="container column inner">
+          <div className="InnerModalContainer column">
             <div className="modalHeader">
               <label>How to use the helper</label>
               <img src={closeIcon} onClick={toggleInfoModal} alt="" />
@@ -398,31 +442,6 @@ function App() {
                 </div>
               ))}
             </label>
-            <div className="keyboard">
-              <div className="keyboardRow">
-                {keyboardRowOne.split("").map((keyItem) => (
-                  <div className="key" key={keyItem}>
-                    {keyItem}
-                  </div>
-                ))}
-              </div>
-              <div className="keyboardRow">
-                {keyboardRowTwo.split("").map((keyItem) => (
-                  <div className="key" key={keyItem}>
-                    {keyItem}
-                  </div>
-                ))}
-              </div>
-              <div className="keyboardRow">
-                <div className="key">enter</div>
-                {keyboardRowThree.split("").map((keyItem) => (
-                  <div className="key" key={keyItem}>
-                    {keyItem}
-                  </div>
-                ))}
-                <div className="key">{`<`}</div>
-              </div>
-            </div>
             <div className="resultBtn" onClick={guessValue}>
               Show Suggestions
             </div>
@@ -447,12 +466,87 @@ function App() {
                 )
             )}
           </section>
-          <span className="made">
-            made by <a href="https://twitter.com/MossabDiae">@diamossab</a> &{" "}
-            <a href="https://twitter.com/uithinker">@uithinker</a>
-          </span>
         </section>
       </main>
+      <div className={`keyboard`}>
+        <div
+          className="toggleKeyboard"
+          onClick={() => {
+            setShowKeyboard(!showKeyboard);
+          }}
+        >
+          {showKeyboard ? "Hide Keyboad" : "Show keyboard"}
+        </div>
+        <div className={`keyboardRow ${showKeyboard && "showKeyboard"}`}>
+          {keyboardRowOne.split("").map((keyItem) => (
+            <div
+              className="key"
+              key={keyItem}
+              onClick={() => {
+                handleKeyboardClick(keyItem);
+              }}
+            >
+              {keyItem}
+            </div>
+          ))}
+        </div>
+        <div className={`keyboardRow ${showKeyboard && "showKeyboard"}`}>
+          <div className="half"></div>
+          {keyboardRowTwo.split("").map((keyItem) => (
+            <div
+              className="key"
+              key={keyItem}
+              onClick={() => {
+                handleKeyboardClick(keyItem);
+              }}
+            >
+              {keyItem}
+            </div>
+          ))}
+          <div className="half"></div>
+        </div>
+        <div className={`keyboardRow ${showKeyboard && "showKeyboard"}`}>
+          <div className="key oneandhalf" onClick={guessValue}>
+            enter
+          </div>
+          {keyboardRowThree.split("").map((keyItem) => (
+            <div
+              className="key"
+              key={keyItem}
+              onClick={() => {
+                handleKeyboardClick(keyItem);
+              }}
+            >
+              {keyItem}
+            </div>
+          ))}
+          <div
+            className="key oneandhalf"
+            onClick={() => {
+              handleKeyboardClick("<");
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24"
+              viewBox="0 0 24 24"
+              width="24"
+            >
+              <path
+                fill="white"
+                d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <span className="made">
+          © 2022 by <a href="https://twitter.com/MossabDiae">@MossabDiae</a> &{" "}
+          <a href="https://twitter.com/uithinker">@uithinker</a>
+        </span>
+      </footer>
     </div>
   );
 }
