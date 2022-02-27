@@ -247,6 +247,7 @@ function App() {
       contains: { content: [], id: 6 },
       notContain: { content: [], id: 7 },
     });
+    setResult([]);
   };
 
   const toggleInfoModal = () => {
