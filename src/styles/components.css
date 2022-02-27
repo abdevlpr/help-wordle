@@ -42,12 +42,6 @@ header {
   padding-bottom: 5px;
   width: 100%;
 }
-header::after {
-  content: "";
-  display: block;
-  width: 24px;
-  height: 24px;
-}
 header div {
   cursor: pointer;
   display: flex;
@@ -206,7 +200,7 @@ footer {
 .link:hover {
   text-decoration: underline;
 }
-.made a {
+footer a {
   color: var(--keyboard-dark);
 }
 
@@ -337,4 +331,17 @@ footer {
 }
 .error {
   color: #f17272;
+}
+
+.github {
+  display: flex;
+  align-items: center;
+  color: var(--keyboard-dark);
+}
+.github img {
+  width: 24px;
+  margin-right: 0.5rem;
+}
+.github img:hover {
+  opacity: 0.8;
 }

@@ -10,6 +10,7 @@ import Tut3 from "./assets/tutorial/3.png";
 import Tut4 from "./assets/tutorial/4.png";
 import Tut5 from "./assets/tutorial/5.png";
 import Tut6 from "./assets/tutorial/6.png";
+import Github from "./assets/github.svg";
 import Keyboard from "./components/Keyboard";
 import SingleLetterInput from "./components/SingleLetterInput";
 import MultipleLetterInput from "./components/MultipleLetterInput";
@@ -331,6 +332,13 @@ function App() {
         <div className="logo">
           <img src={logoIcon} alt="" />
         </div>
+        <a
+          className="github"
+          target="_blank"
+          href="https://github.com/abdevlpr/help-wordle"
+        >
+          <img src={Github} />
+        </a>
       </header>
       <main>
         <section className="trials">
@@ -425,8 +433,14 @@ function App() {
       />
       <footer>
         <span className="made">
-          © 2022 by <a href="https://twitter.com/MossabDiae">@MossabDiae</a> &{" "}
-          <a href="https://twitter.com/uithinker">@uithinker</a>
+          © 2022 by{" "}
+          <a target="_blank" href="https://twitter.com/MossabDiae">
+            @MossabDiae
+          </a>{" "}
+          &{" "}
+          <a target="_blank" href="https://twitter.com/uithinker">
+            @uithinker
+          </a>
         </span>
       </footer>
     </div>
