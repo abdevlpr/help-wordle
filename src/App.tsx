@@ -338,7 +338,7 @@ function App() {
           rel="noreferrer"
           href="https://github.com/abdevlpr/help-wordle"
         >
-          <img src={Github} />
+          <img src={Github} alt="" />
         </a>
       </header>
       <main>
