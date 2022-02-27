@@ -335,6 +335,7 @@ function App() {
         <a
           className="github"
           target="_blank"
+          rel="noreferrer"
           href="https://github.com/abdevlpr/help-wordle"
         >
           <img src={Github} />
@@ -434,11 +435,19 @@ function App() {
       <footer>
         <span className="made">
           © 2022 by{" "}
-          <a target="_blank" href="https://twitter.com/MossabDiae">
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://twitter.com/MossabDiae"
+          >
             @MossabDiae
           </a>{" "}
           &{" "}
-          <a target="_blank" href="https://twitter.com/uithinker">
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://twitter.com/uithinker"
+          >
             @uithinker
           </a>
         </span>
